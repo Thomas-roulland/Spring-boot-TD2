@@ -1,9 +1,5 @@
 {{> inc/header}}
 
-
-
-
-
 <div class="ui items">
   <div class="item">
     <div class="ui image">
@@ -16,12 +12,11 @@
       </div>
       </div>
 	</div>
+	</div>
 	
-
-
-
 <div class="ui segment">
-  <a class="ui primary button" href="add"><i class="plus icon"></i>Ajoutez une Organisation</a>
+
+	<a class="ui primary button" href="add"><i class="plus icon"></i>Ajoutez une Organisation</a>
 
 <table class="ui  table">
 
@@ -41,16 +36,28 @@
       <td data-label="{{name}}">{{name}}</td>
       <td data-label="{{domain}}">{{domain}}</td>
       <td data-label="{{aliases}}">{{aliases}}</td>
-      <td><a class="ui icon button" href="display/{id}"><i class="eye icon"></i></a>
-   	  <a class="ui icon button" href="edit/{id}"><i class="edit icon"></i></a>
-   	  <a class="ui negative icon button" href="delete/{id}"><i class="ban icon"></i></a></td>
+      <td><a class="ui icon button" href="display/{{id}}"><i class="eye icon"></i></a>
+   	  <a class="ui icon button" href="edit/{{id}}"><i class="edit icon"></i></a>
+   	  <a class="ui negative icon button" href="/org/delete/{{id}}"><i class="ban icon"></i></a></td>
    	<tr>
    	  {{/organizations}}
    	  
-   	  
-   	 
   </tbody>
 
 </table>
+
+{{#msg}}
+<div class="ui icon {{type}} message">
+  <i class="{{icon}} icon"></i>
+  <div class="content">
+  <div class="header">
+    Suppression
+  </div>
+  <p>{{content}}</p>
 </div>
+</div>
+{{/msg}}
+
+</div>
+
 {{> inc/footer}}

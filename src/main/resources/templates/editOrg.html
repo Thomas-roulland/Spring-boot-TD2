@@ -11,28 +11,31 @@
     <div class="content">
       <div class="header"><h1>Models/organization</h1></div>
       <div class="meta">
-        <span class="price">Creation d'une nouvelle organisation</span>
+        <span class="price">Modification d'une organization</span>
       </div>
       </div>
 	</div>
 	</div>
 </div>
 
-<form class="ui form" action="add" method="post">
+
+<form class="ui form" action="/org/edit/{{id}}" method="post">
+ {{#organizations}}
+ 
   <div class="field">
     <label>Nom</label>
-    <input type="text" name="name" placeholder="Nom">
+    <input type="text" name="name" value="{{name}}">
   </div>
   <div class="field">
     <label>Domaine</label>
-    <input type="text" name="domain" placeholder="Domaine">
+    <input type="text" name="domain" value="{{domain}}">
   </div>
    <div class="field">
     <label>Aliases</label>
-    <input type="text" name="aliases" placeholder="Aliases">
+    <input type="text" name="aliases" value="{{aliases}}">
   </div>
- 
   
+{{/organizations}}
 <div class="ui segment">
   <button class="ui positive button" type="submit">Envoyer</button>
 
