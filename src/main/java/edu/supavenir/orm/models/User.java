@@ -16,9 +16,27 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+    private String Firstname;
+
+    public String getFirstName() {
+	return Firstname;
+    }
+
+    public void setFirstName(String Firstname) {
+	this.Firstname = Firstname;
+    }
+
+    public String getFirstname() {
+	return Firstname;
+    }
 
     @ManyToOne
     private Organization organization;
+
+    @Override
+    public String toString() {
+	return Firstname;
+    }
 
     @ManyToMany(mappedBy = "users")
     private List<Groupe> groups;

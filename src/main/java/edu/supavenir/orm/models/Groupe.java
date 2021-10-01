@@ -14,6 +14,11 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Groupe {
 
+    @Override
+    public String toString() {
+	return name;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;

@@ -15,6 +15,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import edu.supavenir.orm.models.Groupe;
 import edu.supavenir.orm.models.Organization;
+import edu.supavenir.orm.models.User;
 import edu.supavenir.orm.repositories.OrgRepositories;
 import edu.supavenir.orm.tricks.CssMessage;
 
@@ -43,6 +44,10 @@ public class OrgControllers {
 	group.setName("etudiant");
 	group.setOrganization(orga);
 	orga.getGroups().add(group);
+	User thomas = new User();
+	thomas.setFirstName("thomas");
+	thomas.setOrganization(orga);
+	orga.getUsers().add(thomas);
 	repository.saveAndFlush(orga);
 	return "orga ajouté : " + orga;
     }
@@ -73,7 +78,12 @@ public class OrgControllers {
 	repository.deleteById(id);
 	return new RedirectView("/org/");
     }
-    
-    @GetMapping("display")
+
+    @GetMapping("display/{id}")
+    public String display(@PathVariable int id, Model model) {
+	Organization org = repository.getById(id);
+	model.addAttribute("organization", org);
+	return "displayOrg";
+    }
 
 }
