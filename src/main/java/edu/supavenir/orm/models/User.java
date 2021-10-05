@@ -10,24 +10,31 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    private String Firstname;
-
-    public String getFirstName() {
-	return Firstname;
-    }
-
-    public void setFirstName(String Firstname) {
-	this.Firstname = Firstname;
-    }
+    private String firstname;
+    private String name;
 
     public String getFirstname() {
-	return Firstname;
+	return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+	this.firstname = firstname;
+    }
+
+    public String getName() {
+	return name;
+    }
+
+    public void setName(String name) {
+	this.name = name;
     }
 
     @ManyToOne
@@ -35,10 +42,11 @@ public class User {
 
     @Override
     public String toString() {
-	return Firstname;
+	return firstname;
     }
 
     @ManyToMany(mappedBy = "users")
+    @JsonIgnore
     private List<Groupe> groups;
 
     public User() {

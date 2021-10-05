@@ -45,7 +45,7 @@ public class OrgControllers {
 	group.setOrganization(orga);
 	orga.getGroups().add(group);
 	User thomas = new User();
-	thomas.setFirstName("thomas");
+	thomas.setFirstname("thomas");
 	thomas.setOrganization(orga);
 	orga.getUsers().add(thomas);
 	repository.saveAndFlush(orga);

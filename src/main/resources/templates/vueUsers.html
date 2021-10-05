@@ -1,0 +1,129 @@
+{{> inc/header}}
+
+<v-app>	
+	<v-btn v-on:click="loadUsers()">Charger les users </v-btn>
+	<ul>
+		<li v-for="user in users">
+		 <% user.firstname %>
+		  <v-btn fab x-small v-on:click="remove(user)"><v-icon dark>mdi-minus</v-icon></v-btn>
+		  <v-btn color="secondary" fab x-small dark v-on:click="updateUser(user)">
+              <v-icon>mdi-pencil</v-icon>
+           </v-btn>
+		  <v-badge v-if="user.organization" color="success" v-bind:content="user.organization.name"></v-badge>
+		  
+		 </li>
+	</ul>
+	<v-alert v-if="message" type="succes"><% message %></v-alert>
+	
+	
+<template>
+  <v-row justify="center">
+    <v-form v-model="valid">
+    <v-dialog v-model="dialog.visible" persistent max-width="600px">
+      <template v-slot:activator="{ on, attrs }">
+   		<v-btn  color="success" dark v-bind="attrs" v-on="on" v-on:click="newForm()">
+     		<v-icon left> mdi-plus </v-icon> Ajoutez Utilisateur
+   		</v-btn>
+      </template>
+      <v-card>
+        <v-card-title>
+          <span class="text-h5">Creer un Utilisateur</span>
+        </v-card-title>
+        <v-card-text>
+          <v-container>
+	            <v-text-field v-model="newUser.firstname" label="Name" required></v-text-field>
+	            <v-text-field v-model="newUser.name" label="Firstname" required></v-text-field>
+	            <v-select
+	              return-object
+	              item-text="name"
+			      v-model="newUser.organization"
+			      :items="organizations"
+			      label="Organization"
+			      required>
+      			</v-select>
+    
+          </v-container>
+          <small>*indicates required field</small>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          
+          <v-btn color="blue darken-1" text @click="dialog = false" v-on:click="addOrUpdateUser()"> Ajouter </v-btn>
+   		<v-btn color="blue darken-1" text @click="dialog = false"> Fermer </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    </v-form>
+  </v-row>
+</template>
+
+
+</v-app>
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vuetify/2.5.9/vuetify.min.js"></script>
+<script>
+
+Vue.prototype.$http = axios;
+	var app = new Vue({
+		  el: 'v-app',
+		  vuetify: new Vuetify(),
+		  data: {
+		    users:[],
+		    organizations: [],
+		    message:null,
+		    dialog: {visible:false, mode:0},
+		    newUser: {firstname:"",name:"", organization:""},
+		    valid :false,
+		  },
+		  delimiters: ['<%', '%>'],
+		  mounted(){
+			this.loadUsers();
+			this.loadOrg();
+		  },
+		  methods:{
+			  loadUsers(){
+				  this.$http.get('/rest/users').then((response)=>{
+					  this.users=response.data;
+				  })
+			  },
+			  loadOrg(){
+				  this.$http.get('/rest/org').then((response)=>{
+					  this.organizations=response.data;
+				  })
+			  },
+			  remove(user){
+				  this.$http.delete('/rest/users/'+user.id).then((response)=>{
+					  if(response.data){
+						  let index=this.users.indexOf(user);
+						  this.users.splice(index,1);
+						  this.message="Utilisateur " + user.name+" supprime.";
+					  }
+				  })
+			  },
+			   addOrUpdateUser(){
+				  if(this.dialog.mode==0){
+					  this.$http.post('/rest/users', this.newUser).then((response)=>{
+						  this.users.push(response.data);
+					  })
+				  }else{
+					  this.$http.put('/rest/users/'+this.newUser.id, this.newUser).then((response)=>{
+						  let index=this.users.findIndex((item)=>item.id==this.newUser.id);
+						  if(index!=-1){
+							  this.users[index]=this.newUser;
+						  }
+				  })
+				  }
+			  },
+			  updateUser(user){
+				  this.newUser=user;
+				  this.dialog.visible=true;
+			  },
+			  newForm(){
+				  this.dialog={visible:true, mode:0};
+			  }
+		  }
+		})
+</script>
+{{> inc/footer}}
