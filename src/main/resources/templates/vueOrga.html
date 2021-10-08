@@ -1,0 +1,20 @@
+{{> inc/header}}
+
+<v-app>	
+<button-msg type="info"></button-msg>
+<input v-model="message">
+<% message %>
+
+<h1>Organisations</h1>
+<list-item :list="orga" v-slot="{item}">
+	<% item.name %>
+</list-item>
+</v-app>
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vuetify/2.5.9/vuetify.min.js"></script>
+<script src="vueJS/button-msg.js"></script>
+<script src="vueJS/list-item.js"></script>
+{{{vue}}}
+{{> inc/footer}}

@@ -3,10 +3,10 @@ package edu.supavenir.orm.controllers;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import edu.supavenir.orm.models.User;
+import edu.supavenir.orm.models.Groupe;
 
 @RestController
-@RequestMapping("/rest/users")
-public class RestUserController extends abstractRestController<User> {
+@RequestMapping("/rest/groupe")
+public class RestGroupeController extends abstractRestController<Groupe> {
 
 }
